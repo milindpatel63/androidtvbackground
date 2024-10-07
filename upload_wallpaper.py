@@ -5,8 +5,7 @@ import praw
 reddit = praw.Reddit(
     client_id=os.getenv('CLIENT_ID'),
     client_secret=os.getenv('CLIENT_SECRET'),
-    username=os.getenv('USERNAME'),
-    password=os.getenv('PASSWORD'),
+    refresh_token=os.getenv('REFRESH_TOKEN'),
     user_agent='Wallpaper Posting Bot v1.0'
 )
 
