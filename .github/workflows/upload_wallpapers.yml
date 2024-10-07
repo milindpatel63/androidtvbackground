@@ -54,7 +54,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add uploaded_images.txt  # Replace with your metadata file name
+          git add uploaded_wallpapers.txt  # Replace with your metadata file name
           git commit -m "Update metadata file to track uploaded images"
           git push
         env:
