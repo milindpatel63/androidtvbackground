@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false  # Ensure GitHub credentials are not persisted to the job
+          fetch-depth: 0  # Fetch all history for all branches and tags
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -46,3 +49,13 @@ jobs:
           CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           SUBREDDIT: ${{ secrets.REDDIT_SUBREDDIT }}
+
+      - name: Commit and Push Metadata Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add uploaded_images.txt  # Replace with your metadata file name
+          git commit -m "Update metadata file to track uploaded images"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
