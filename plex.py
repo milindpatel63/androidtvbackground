@@ -45,8 +45,8 @@ def clean_filename(filename):
     return cleaned_filename
 
 def download_latest_media(order_by, limit, media_type):
-baseurl = os.getenv('PLEX_BASEURL')
-token = os.getenv('PLEX_TOKEN')
+    baseurl = os.getenv('PLEX_BASEURL')
+    token = os.getenv('PLEX_TOKEN')
     plex = PlexServer(baseurl, token)
 
     os.makedirs(background_dir, exist_ok=True)
