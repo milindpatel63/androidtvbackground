@@ -1,0 +1,49 @@
+name: Generate and Upload Wallpapers to Subreddit
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
+  workflow_dispatch:  # Allow manual trigger
+  schedule:
+    - cron: '30 4 * * 5'  # Run every Friday at 10:00 AM IST (IST is UTC+5:30, cron is in UTC)
+
+jobs:
+  generate-and-upload-wallpapers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # Change this to the version you need
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Plex Wallpaper Generation Script
+        run: |
+          python plex.py
+        env:
+          PLEX_BASEURL: ${{ secrets.PLEX_BASEURL }}
+          PLEX_TOKEN: ${{ secrets.PLEX_TOKEN }}
+
+      - name: Run TMDB Wallpaper Generation Script
+        run: |
+          python TMDBlogo.py
+        env:
+          TMDB_BEARER_TOKEN: ${{ secrets.TMDB_BEARER_TOKEN }}
+
+      - name: Upload Wallpapers to Subreddit
+        run: |
+          python upload_wallpaper.py
+        env:
+          CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+          USERNAME: ${{ secrets.REDDIT_USERNAME }}
+          PASSWORD: ${{ secrets.REDDIT_PASSWORD }}
+          SUBREDDIT: ${{ secrets.REDDIT_SUBREDDIT }}

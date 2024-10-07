@@ -10,9 +10,10 @@ import textwrap
 url = "https://api.themoviedb.org/3/"
 
 # Set your TMDB API Read Access Token key here
+tmdb_token = os.getenv('TMDB_BEARER_TOKEN')
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer XXXX"
+    "Authorization": f"Bearer {tmdb_token}"
 }
 # The font used
 truetype_url = 'https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Light.ttf'
