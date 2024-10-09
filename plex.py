@@ -97,7 +97,7 @@ def download_latest_media(order_by, limit, media_type):
 
                     bckg.paste(image, (1175, 0))
                     bckg.paste(overlay, (1175,0), overlay)
-                    bckg.paste(plexlogo, (680, 970),plexlogo)
+                    bckg.paste(plexlogo, (680, 890),plexlogo)
 
                     # Add text on top of the image with shadow effect
                     draw = ImageDraw.Draw(bckg)
@@ -144,11 +144,11 @@ def download_latest_media(order_by, limit, media_type):
                     metadata_text_width, metadata_text_height = draw.textlength(info_text, font=font_metadata), draw.textlength(info_text, font=font_metadata)
                     
                     #Position
-                    title_position = (200, 540)
-                    summary_position = (210, 830)
-                    info_position = (210, 520)
-                    metadata_position = (210, 920)
-                    custom_position = (210, 950)
+                    title_position = (200, 460)
+                    summary_position = (210, 750)
+                    info_position = (210, 440)
+                    metadata_position = (210, 840)
+                    custom_position = (210, 870)
                     shadow_offset = 2
 
                     #Color

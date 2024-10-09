@@ -134,7 +134,7 @@ def process_image(image_url, title, is_movie, genre, year, rating, duration=None
         # Paste images
         bckg.paste(image, (1175, 0))
         bckg.paste(overlay, (1175, 0), overlay)
-        bckg.paste(tmdblogo, (570, 977), tmdblogo)
+        bckg.paste(tmdblogo, (570, 897), tmdblogo)
 
         # Add title text with shadow
         draw = ImageDraw.Draw(bckg)
@@ -151,11 +151,11 @@ def process_image(image_url, title, is_movie, genre, year, rating, duration=None
         metadata_color = "white"
 
         # Text position
-        title_position = (200, 520)
-        overview_position = (210, 830)
+        title_position = (200, 440)
+        overview_position = (210, 750)
         shadow_offset = 2
-        info_position = (210, 750)  # Adjusted position for logo and info
-        custom_position = (210, 970)
+        info_position = (210, 670)  # Adjusted position for logo and info
+        custom_position = (210, 890)
 
         # Wrap overview text
         wrapped_overview = "\n".join(textwrap.wrap(overview, width=70, initial_indent="", subsequent_indent="", expand_tabs=True, tabsize=8, replace_whitespace=True, fix_sentence_endings=False, break_long_words=True, break_on_hyphens=True, drop_whitespace=True, max_lines=2, placeholder=" ..."))
