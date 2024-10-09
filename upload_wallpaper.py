@@ -1,5 +1,6 @@
 import os
 import praw
+from datetime import datetime, timedelta
 
 # Metadata file to track uploaded images
 metadata_file = "uploaded_wallpapers.txt"
@@ -25,7 +26,38 @@ subreddit = reddit.subreddit(os.getenv('SUBREDDIT'))
 # Directories where wallpapers are stored
 wallpapers_dirs = ["plex_backgrounds", "tmdb_backgrounds"]
 
-# Iterate over each directory and each file in the directory
+# Time limit for deleting old posts (2 weeks)
+time_limit = timedelta(weeks=2)
+current_time = datetime.utcnow()
+
+# Delete old posts
+for submission in subreddit.new(limit=None):
+    # Calculate the age of the submission
+    post_age = current_time - datetime.utcfromtimestamp(submission.created_utc)
+    
+    # Skip if the post is not an image or doesn't match your tracking criteria
+    if post_age > time_limit and submission.title.startswith("Wallpaper:") and "PLEX" not in submission.title.upper():
+        # Try to delete the post
+        try:
+            # Remove "Wallpaper: " prefix to get the original filename
+            filename = submission.title.replace("Wallpaper: ", "").strip()
+            
+            if filename in uploaded_images:
+                print(f"Deleting post: {submission.title} (Posted on: {submission.created_utc})")
+                submission.delete()
+                print(f"Deleted post: {submission.title}")
+                
+                # Remove the entry from the uploaded images set and the metadata file
+                uploaded_images.remove(filename)
+        except Exception as e:
+            print(f"Failed to delete post {submission.title}: {e}")
+
+# Write back the updated uploaded images to the metadata file
+with open(metadata_file, "w") as f:
+    for img in uploaded_images:
+        f.write(f"{img}\n")
+
+# Upload new wallpapers
 for wallpapers_dir in wallpapers_dirs:
     if os.path.exists(wallpapers_dir):
         for filename in os.listdir(wallpapers_dir):
